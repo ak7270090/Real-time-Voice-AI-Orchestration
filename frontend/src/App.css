@@ -239,21 +239,25 @@ button {
 
 /* Voice Assistant UI */
 .voice-assistant {
-  padding: 30px;
+  padding: 24px;
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   border-radius: 12px;
-  text-align: center;
 }
 
-.status {
+/* Controls row: agent state + mic button */
+.voice-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
   margin-bottom: 20px;
 }
 
 .status-indicator {
   display: inline-block;
-  padding: 12px 24px;
+  padding: 10px 20px;
   border-radius: 25px;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   background: white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -273,16 +277,13 @@ button {
   animation: pulse 1s ease-in-out infinite;
 }
 
-.status-indicator.idle {
+.status-indicator.idle,
+.status-indicator.initializing {
   color: #9E9E9E;
 }
 
-.status-indicator.connected {
-  color: #4CAF50;
-  font-weight: bold;
-}
-
-.status-indicator.connecting {
+.status-indicator.connecting,
+.status-indicator.pre-connect-buffering {
   color: #FF9800;
   animation: pulse 1.5s ease-in-out infinite;
 }
@@ -292,46 +293,93 @@ button {
 }
 
 @keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
 }
 
-.visualizer {
-  margin: 20px 0;
-  height: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* Mic button */
+.mic-button {
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
 }
 
-.tips {
-  margin-top: 20px;
+.mic-button.mic-on {
+  background: #4CAF50;
+  color: white;
+}
+
+.mic-button.mic-on:hover {
+  background: #43A047;
+}
+
+.mic-button.mic-off {
+  background: #f44336;
+  color: white;
+}
+
+.mic-button.mic-off:hover {
+  background: #E53935;
+}
+
+/* Transcript panel */
+.transcript-panel {
+  background: white;
+  border-radius: 8px;
+  padding: 16px;
   text-align: left;
-  background: white;
-  padding: 15px;
-  border-radius: 8px;
 }
 
-.tips p {
-  margin-bottom: 8px;
+.transcript-panel h3 {
+  margin: 0 0 12px;
+  font-size: 1rem;
   color: #555;
 }
 
-.connection-info {
-  margin: 20px 0;
-  padding: 15px;
-  background: white;
-  border-radius: 8px;
-  border-left: 4px solid #2196F3;
+.transcript-log {
+  max-height: 260px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.connection-info p {
-  margin: 5px 0;
-  color: #555;
+.transcript-entry {
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.transcript-entry.user {
+  background: #e3f2fd;
+  align-self: flex-end;
+  max-width: 85%;
+  margin-left: auto;
+}
+
+.transcript-entry.agent {
+  background: #f3e5f5;
+  align-self: flex-start;
+  max-width: 85%;
+}
+
+.transcript-entry.partial {
+  opacity: 0.6;
+}
+
+.transcript-role {
+  font-weight: 600;
+  margin-right: 8px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: #888;
+}
+
+.transcript-text {
+  color: #333;
 }
 
 .success-text {

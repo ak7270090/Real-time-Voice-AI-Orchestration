@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
   LiveKitRoom,
   RoomAudioRenderer,
   useVoiceAssistant,
-  useRoomContext,
-  useConnectionState,
+  useLocalParticipant,
+  useTrackTranscription,
 } from '@livekit/components-react';
 import '@livekit/components-styles';
-import { ConnectionState } from 'livekit-client';
+import { Track } from 'livekit-client';
 import './App.css';
 import api from './services/apiClient';
 
@@ -299,53 +299,110 @@ function App() {
 
 /**
  * Voice Assistant UI Component
- * Shows live transcription and agent state
+ * Mic controls, agent state, and live transcript
  */
 function VoiceAssistantUI({ documents }) {
-  const roomContext = useRoomContext();
-  const connectionState = useConnectionState();
-  const [agentState, setAgentState] = useState('idle');
-  
-  useEffect(() => {
-    console.log('Connection state:', connectionState);
-  }, [connectionState]);
+  const { localParticipant, isMicrophoneEnabled } = useLocalParticipant();
+  const { state: agentState, audioTrack, agentTranscriptions } = useVoiceAssistant();
 
-  // Simple state display based on connection
+  // User transcription from local mic track
+  const localMicTrack = localParticipant.getTrackPublication(Track.Source.Microphone);
+  const localTrackRef = localMicTrack
+    ? { participant: localParticipant, publication: localMicTrack, source: Track.Source.Microphone }
+    : undefined;
+  const { segments: userSegments } = useTrackTranscription(localTrackRef);
+
+  // Build transcript log from both user and agent segments
+  const transcriptRef = useRef([]);
+  const [transcript, setTranscript] = useState([]);
+
   useEffect(() => {
-    if (connectionState === ConnectionState.Connected) {
-      setAgentState('connected');
-    } else if (connectionState === ConnectionState.Connecting) {
-      setAgentState('connecting');
+    if (userSegments.length === 0) return;
+    const latest = userSegments[userSegments.length - 1];
+    const existing = transcriptRef.current;
+    const idx = existing.findIndex((e) => e.id === `user-${latest.id}`);
+    const entry = { id: `user-${latest.id}`, role: 'user', text: latest.text, final: latest.final };
+    if (idx >= 0) {
+      existing[idx] = entry;
     } else {
-      setAgentState('disconnected');
+      existing.push(entry);
     }
-  }, [connectionState]);
+    setTranscript([...existing]);
+  }, [userSegments]);
+
+  useEffect(() => {
+    if (agentTranscriptions.length === 0) return;
+    const latest = agentTranscriptions[agentTranscriptions.length - 1];
+    const existing = transcriptRef.current;
+    const idx = existing.findIndex((e) => e.id === `agent-${latest.id}`);
+    const entry = { id: `agent-${latest.id}`, role: 'agent', text: latest.text, final: latest.final };
+    if (idx >= 0) {
+      existing[idx] = entry;
+    } else {
+      existing.push(entry);
+    }
+    setTranscript([...existing]);
+  }, [agentTranscriptions]);
+
+  // Auto-scroll transcript
+  const transcriptEndRef = useRef(null);
+  useEffect(() => {
+    transcriptEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [transcript]);
+
+  const toggleMic = useCallback(async () => {
+    await localParticipant.setMicrophoneEnabled(!isMicrophoneEnabled);
+  }, [localParticipant, isMicrophoneEnabled]);
+
+  const stateLabel = {
+    disconnected: 'Disconnected',
+    connecting: 'Connecting...',
+    initializing: 'Initializing...',
+    idle: 'Idle',
+    listening: 'Listening...',
+    thinking: 'Thinking...',
+    speaking: 'Speaking...',
+  };
 
   return (
     <div className="voice-assistant">
-      <div className="status">
+      {/* Agent state + mic toggle */}
+      <div className="voice-controls">
         <div className={`status-indicator ${agentState}`}>
-          {connectionState === ConnectionState.Connected && 'Connected - Ready to talk!'}
-          {connectionState === ConnectionState.Connecting && 'Connecting...'}
-          {connectionState === ConnectionState.Disconnected && 'Disconnected'}
-          {connectionState === ConnectionState.Reconnecting && 'Reconnecting...'}
+          {stateLabel[agentState] || agentState}
+        </div>
+
+        <button
+          className={`mic-button ${isMicrophoneEnabled ? 'mic-on' : 'mic-off'}`}
+          onClick={toggleMic}
+        >
+          {isMicrophoneEnabled ? 'Mute Mic' : 'Unmute Mic'}
+        </button>
+      </div>
+
+      {/* Live transcript */}
+      <div className="transcript-panel">
+        <h3>Live Transcript</h3>
+        <div className="transcript-log">
+          {transcript.length === 0 ? (
+            <p className="empty-state">Start speaking to see the transcript...</p>
+          ) : (
+            transcript.map((entry) => (
+              <div key={entry.id} className={`transcript-entry ${entry.role} ${entry.final ? '' : 'partial'}`}>
+                <span className="transcript-role">{entry.role === 'user' ? 'You' : 'Agent'}</span>
+                <span className="transcript-text">{entry.text}</span>
+              </div>
+            ))
+          )}
+          <div ref={transcriptEndRef} />
         </div>
       </div>
 
-      <div className="connection-info">
-        <p><strong>Connection Status:</strong> {connectionState}</p>
-        {connectionState === ConnectionState.Connected && (
-          <p className="success-text">You can now speak! The agent is listening.</p>
-        )}
-      </div>
-
-      <div className="tips">
-        <p><strong>Tip:</strong> Ask about your uploaded documents!</p>
-        <p>Example: "What does the document say about...?"</p>
-        {(!documents || documents.length === 0) && (
-          <p className="warning-text">Upload documents first to get better answers!</p>
-        )}
-      </div>
+      {(!documents || documents.length === 0) && (
+        <p className="warning-text" style={{ marginTop: 12 }}>
+          Upload documents first to get better answers!
+        </p>
+      )}
     </div>
   );
 }
