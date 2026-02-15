@@ -9,6 +9,20 @@ function useVoiceConnection({ setError }) {
   const handleConnect = useCallback(async () => {
     try {
       setError('');
+
+      // Check microphone permission before connecting
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        stream.getTracks().forEach((t) => t.stop());
+      } catch (micErr) {
+        if (micErr.name === 'NotAllowedError' || micErr.name === 'PermissionDeniedError') {
+          setError('Microphone access denied. Please allow microphone permission in your browser settings.');
+        } else {
+          setError('Could not access microphone. Please check that a microphone is connected.');
+        }
+        return;
+      }
+
       const roomName = `voice-agent-room-${Date.now()}`;
       const response = await api.post('/generate-token', {
         room_name: roomName,
