@@ -41,6 +41,7 @@ function VoiceAssistantUI({ documents }) {
 
   const [ragSources, setRagSources] = useState([]);
   const [ragLoading, setRagLoading] = useState(false);
+  const [ragError, setRagError] = useState('');
   const lastQueriedRef = useRef('');
 
   const transcriptRef = useRef([]);
@@ -62,9 +63,13 @@ function VoiceAssistantUI({ documents }) {
     if (latest.final && latest.text && latest.text !== lastQueriedRef.current) {
       lastQueriedRef.current = latest.text;
       setRagLoading(true);
+      setRagError('');
       api.post('/query', { query: latest.text })
         .then((res) => setRagSources(res.data.results || []))
-        .catch(() => setRagSources([]))
+        .catch(() => {
+          setRagSources([]);
+          setRagError('Failed to retrieve sources');
+        })
         .finally(() => setRagLoading(false));
     }
   }, [userSegments]);
@@ -141,6 +146,8 @@ function VoiceAssistantUI({ documents }) {
         <h3>RAG Sources Used</h3>
         {ragLoading ? (
           <p className={styles.emptyState}>Retrieving sources...</p>
+        ) : ragError ? (
+          <p className={styles.warningText}>{ragError}</p>
         ) : ragSources.length === 0 ? (
           <p className={styles.emptyState}>No sources retrieved yet</p>
         ) : (
