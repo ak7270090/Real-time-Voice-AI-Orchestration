@@ -27,7 +27,7 @@ function useVoiceConnection({ setError }) {
       const response = await api.post('/generate-token', {
         room_name: roomName,
         participant_name: `User-${Date.now()}`,
-      });
+      }, { timeout: 10000 });
 
       setToken(response.data.token);
       setLivekitUrl(response.data.url);
@@ -35,7 +35,10 @@ function useVoiceConnection({ setError }) {
     } catch (err) {
       console.error('Error connecting:', err);
       const detail = err.response?.data?.detail;
-      setError(detail || 'Failed to connect to voice agent. Please check your connection and try again.');
+      const message = err.code === 'ECONNABORTED'
+        ? 'Connection timed out. Please check that the server is running and try again.'
+        : detail || 'Failed to connect to voice agent. Please check your connection and try again.';
+      setError(message);
     }
   }, [setError]);
 
