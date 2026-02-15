@@ -28,10 +28,17 @@ Frontend (React :3000)  ──HTTP/WebRTC──▶  Backend (FastAPI :8000)
 
 ## Screenshots
 
-| Initial State | Documents Uploaded | Voice Conversation |
-|:---:|:---:|:---:|
-| ![Initial state](docs/screenshots/image1.png) | ![Documents uploaded](docs/screenshots/image2.png) | ![Active conversation](docs/screenshots/image3.png) |
-| Upload documents and configure the agent | Knowledge base populated with documents | Live transcript and RAG source citations |
+### Initial State
+Upload documents and configure the agent
+![Initial state](docs/screenshots/image1.png)
+
+### Documents Uploaded
+Knowledge base populated with documents
+![Documents uploaded](docs/screenshots/image2.png)
+
+### Voice Conversation
+Live transcript and RAG source citations
+![Active conversation](docs/screenshots/image3.png)
 
 ## Prerequisites
 
