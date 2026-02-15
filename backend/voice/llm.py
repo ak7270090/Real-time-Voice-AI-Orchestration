@@ -12,6 +12,7 @@ from livekit.plugins import openai
 
 from constants import DEFAULT_SYSTEM_PROMPT
 from settings import LLM_MODEL, BACKEND_URL, HTTP_TIMEOUT_PROMPT, HTTP_TIMEOUT_RAG
+from observability.metrics import metrics
 
 logger = logging.getLogger(__name__)
 
@@ -53,6 +54,7 @@ async def fetch_rag_context(user_msg: str) -> str:
                 parts.append(f"[Document {i}: {source}]\n{content}")
             return "\n\n".join(parts)
     except Exception as e:
+        metrics.voice_rag_injections_total.labels(status="error").inc()
         logger.error(f"RAG retrieval failed: {e}")
         return ""
 
@@ -71,10 +73,13 @@ async def before_llm_cb(agent: VoicePipelineAgent, chat_ctx: llm.ChatContext):
     if user_msg:
         context = await fetch_rag_context(user_msg)
         if context:
+            metrics.voice_rag_injections_total.labels(status="success").inc()
             rag_msg = llm.ChatMessage.create(
                 role="system",
                 text=f"Use the following document context to answer the user's question:\n\n{context}",
             )
             chat_ctx.messages.insert(-1, rag_msg)
+        else:
+            metrics.voice_rag_injections_total.labels(status="empty").inc()
 
     return agent.llm.chat(chat_ctx=chat_ctx, fnc_ctx=agent.fnc_ctx)

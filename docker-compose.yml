@@ -17,12 +17,18 @@ services:
       - BACKEND_PORT=8000
       - CHROMA_PERSIST_DIR=/app/chroma_db
       - DB_PATH=/app/data/app.db
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
     volumes:
       - backend-data:/app/chroma_db
       - uploads:/app/uploads
       - sqlite-data:/app/data
     networks:
       - voice-ai-network
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
     restart: unless-stopped
 
   # LiveKit Voice Agent worker
@@ -39,10 +45,16 @@ services:
       - LIVEKIT_API_SECRET=${LIVEKIT_API_SECRET}
       - CHROMA_PERSIST_DIR=/app/chroma_db
       - BACKEND_URL=http://backend:8000
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
     volumes:
       - backend-data:/app/chroma_db
     networks:
       - voice-ai-network
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
     depends_on:
       - backend
     restart: unless-stopped
@@ -60,6 +72,11 @@ services:
       - REACT_APP_LIVEKIT_URL=${LIVEKIT_URL}
     networks:
       - voice-ai-network
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
     depends_on:
       - backend
     restart: unless-stopped

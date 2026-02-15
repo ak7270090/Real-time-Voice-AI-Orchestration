@@ -34,6 +34,9 @@ TOP_K_RESULTS = int(os.getenv("TOP_K_RESULTS", DEFAULT_TOP_K_RESULTS))
 # ── Database ─────────────────────────────────────────────────
 DB_PATH = os.getenv("DB_PATH", DEFAULT_DB_PATH)
 
+# ── Observability ────────────────────────────────────────────
+LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
+
 # ── HTTP timeouts (seconds) ──────────────────────────────────
 HTTP_TIMEOUT_PROMPT = float(os.getenv("HTTP_TIMEOUT_PROMPT", 5.0))
 HTTP_TIMEOUT_RAG = float(os.getenv("HTTP_TIMEOUT_RAG", 10.0))

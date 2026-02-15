@@ -1,4 +1,5 @@
 import os
+import time
 import tempfile
 import logging
 from typing import List
@@ -6,6 +7,7 @@ from fastapi import APIRouter, UploadFile, File, HTTPException
 from documents.schemas import DocumentInfo
 from dependencies import get_document_service
 from constants import MAX_FILE_SIZE, ALLOWED_FILE_EXTENSIONS
+from observability.metrics import metrics
 
 logger = logging.getLogger(__name__)
 
@@ -38,10 +40,13 @@ async def upload_document(file: UploadFile = File(...)):
 
         try:
             doc_service = get_document_service()
+            start = time.perf_counter()
             result = await doc_service.process_document(
                 file_path=tmp_file_path,
                 filename=file.filename
             )
+            metrics.document_processing_seconds.observe(time.perf_counter() - start)
+            metrics.document_uploads_total.labels(status="success").inc()
 
             logger.info(f"Document processed: {file.filename}, {result['chunks_created']} chunks")
 
@@ -54,6 +59,7 @@ async def upload_document(file: UploadFile = File(...)):
                 os.remove(tmp_file_path)
 
     except Exception as e:
+        metrics.document_uploads_total.labels(status="error").inc()
         logger.error(f"Error uploading document: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 

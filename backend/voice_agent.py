@@ -15,6 +15,11 @@ from livekit.agents import AutoSubscribe, JobContext, WorkerOptions, cli, llm
 from livekit.agents.pipeline import VoicePipelineAgent
 from livekit.plugins import silero
 
+from observability.logging_config import setup_logging
+from settings import LOG_LEVEL
+
+setup_logging(level=LOG_LEVEL)
+
 from voice import create_stt, create_llm, create_tts, fetch_system_prompt, before_llm_cb
 
 logger = logging.getLogger(__name__)
