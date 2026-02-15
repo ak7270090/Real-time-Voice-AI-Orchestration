@@ -1,15 +1,14 @@
 """
 RAG Service using Local Embeddings (no OpenAI client issues)
 """
-import os
 import logging
 from typing import List, Dict, Any
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from dotenv import load_dotenv
+from constants import CHROMA_COLLECTION_NAME, EMBEDDING_MODEL_NAME, DEFAULT_TOP_K_RESULTS
+from settings import CHROMA_PERSIST_DIR, CHUNK_SIZE, CHUNK_OVERLAP, TOP_K_RESULTS
 
-load_dotenv()
 logger = logging.getLogger(__name__)
 
 
@@ -19,16 +18,14 @@ class RAGService:
     def __init__(self):
         logger.info("Loading local embeddings model...")
         self.embeddings = HuggingFaceEmbeddings(
-            model_name="all-MiniLM-L6-v2"
+            model_name=EMBEDDING_MODEL_NAME
         )
-
-        persist_directory = os.getenv("CHROMA_PERSIST_DIR", "./chroma_db")
 
         try:
             self.vector_store = Chroma(
-                collection_name="documents",
+                collection_name=CHROMA_COLLECTION_NAME,
                 embedding_function=self.embeddings,
-                persist_directory=persist_directory
+                persist_directory=CHROMA_PERSIST_DIR
             )
             logger.info("Vector store initialized successfully")
         except Exception as e:
@@ -36,8 +33,8 @@ class RAGService:
             self.vector_store = None
 
         self.text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=int(os.getenv("CHUNK_SIZE", 1000)),
-            chunk_overlap=int(os.getenv("CHUNK_OVERLAP", 200)),
+            chunk_size=CHUNK_SIZE,
+            chunk_overlap=CHUNK_OVERLAP,
             length_function=len,
         )
 
@@ -57,7 +54,7 @@ class RAGService:
             raise Exception("Vector store not initialized")
 
         if top_k is None:
-            top_k = int(os.getenv("TOP_K_RESULTS", 3))
+            top_k = TOP_K_RESULTS
 
         try:
             results = self.vector_store.similarity_search_with_score(
@@ -101,7 +98,7 @@ class RAGService:
         logger.info(f"Created {len(chunks)} chunks from text")
         return chunks
 
-    async def get_context_for_query(self, query: str, top_k: int = 3) -> str:
+    async def get_context_for_query(self, query: str, top_k: int = DEFAULT_TOP_K_RESULTS) -> str:
         results = await self.retrieve(query, top_k)
 
         if not results:

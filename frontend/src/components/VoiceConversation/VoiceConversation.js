@@ -4,7 +4,7 @@ import {
   RoomAudioRenderer,
 } from '@livekit/components-react';
 import '@livekit/components-styles';
-import VoiceAssistantUI from './VoiceAssistantUI';
+import VoiceAssistantUI from '../VoiceAssistantUI';
 import styles from './VoiceConversation.module.css';
 
 function VoiceConversation({ connected, token, livekitUrl, documents, onConnect, onDisconnect }) {

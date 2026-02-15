@@ -3,38 +3,28 @@ LLM (Large Language Model) Service Component
 
 Handles system prompt fetching and RAG context injection.
 """
-import os
 import logging
-from dotenv import load_dotenv
 import httpx
 
 from livekit.agents import llm
 from livekit.agents.pipeline import VoicePipelineAgent
 from livekit.plugins import openai
 
-load_dotenv()
+from constants import DEFAULT_SYSTEM_PROMPT
+from settings import LLM_MODEL, BACKEND_URL, HTTP_TIMEOUT_PROMPT, HTTP_TIMEOUT_RAG
+
 logger = logging.getLogger(__name__)
-
-DEFAULT_MODEL = "gpt-4o"
-BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
-
-DEFAULT_SYSTEM_PROMPT = (
-    "You are a helpful AI assistant. "
-    "Use the provided context from documents to answer questions accurately. "
-    "If the answer is not in the context, say so clearly."
-)
 
 
 def create_llm() -> openai.LLM:
-    model = os.getenv("LLM_MODEL", DEFAULT_MODEL)
-    logger.info(f"Initializing LLM service with model: {model}")
-    return openai.LLM(model=model)
+    logger.info(f"Initializing LLM service with model: {LLM_MODEL}")
+    return openai.LLM(model=LLM_MODEL)
 
 
 async def fetch_system_prompt() -> str:
     """Fetch the system prompt from the backend API."""
     try:
-        async with httpx.AsyncClient(timeout=5.0) as client:
+        async with httpx.AsyncClient(timeout=HTTP_TIMEOUT_PROMPT) as client:
             resp = await client.get(f"{BACKEND_URL}/prompt")
             if resp.status_code == 200:
                 return resp.json().get("system_prompt", DEFAULT_SYSTEM_PROMPT)
@@ -46,7 +36,7 @@ async def fetch_system_prompt() -> str:
 async def fetch_rag_context(user_msg: str) -> str:
     """Call backend /query endpoint to retrieve RAG context."""
     try:
-        async with httpx.AsyncClient(timeout=10.0) as client:
+        async with httpx.AsyncClient(timeout=HTTP_TIMEOUT_RAG) as client:
             resp = await client.post(
                 f"{BACKEND_URL}/query",
                 json={"query": user_msg},

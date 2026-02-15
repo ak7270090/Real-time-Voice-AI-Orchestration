@@ -2,6 +2,7 @@ import os
 from fastapi import APIRouter
 from health.schemas import HealthResponse
 from dependencies import rag_service, get_current_prompt
+from settings import HEALTH_STT_MODEL, HEALTH_LLM_MODEL, HEALTH_TTS_MODEL, HEALTH_TTS_VOICE
 
 router = APIRouter()
 
@@ -32,8 +33,8 @@ async def get_agent_config():
     prompt = await get_current_prompt()
     return {
         "system_prompt": prompt,
-        "stt_model": os.getenv("STT_MODEL", "whisper-1"),
-        "llm_model": os.getenv("LLM_MODEL", "gpt-4"),
-        "tts_model": os.getenv("TTS_MODEL", "tts-1"),
-        "tts_voice": os.getenv("TTS_VOICE", "alloy"),
+        "stt_model": HEALTH_STT_MODEL,
+        "llm_model": HEALTH_LLM_MODEL,
+        "tts_model": HEALTH_TTS_MODEL,
+        "tts_voice": HEALTH_TTS_VOICE,
     }

@@ -5,7 +5,7 @@ import {
   useTrackTranscription,
 } from '@livekit/components-react';
 import { Track } from 'livekit-client';
-import api from '../services/apiClient';
+import api from '../../services/apiClient';
 import styles from './VoiceAssistantUI.module.css';
 
 const STATE_LABELS = {

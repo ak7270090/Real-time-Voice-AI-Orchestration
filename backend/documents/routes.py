@@ -5,10 +5,9 @@ from typing import List
 from fastapi import APIRouter, UploadFile, File, HTTPException
 from documents.schemas import DocumentInfo
 from dependencies import get_document_service
+from constants import MAX_FILE_SIZE, ALLOWED_FILE_EXTENSIONS
 
 logger = logging.getLogger(__name__)
-
-MAX_FILE_SIZE = 10 * 1024 * 1024  # 10 MB
 
 router = APIRouter()
 
@@ -19,7 +18,7 @@ async def upload_document(file: UploadFile = File(...)):
     try:
         logger.info(f"Uploading document: {file.filename}")
 
-        if not file.filename.endswith(('.pdf', '.txt')):
+        if not file.filename.endswith(ALLOWED_FILE_EXTENSIONS):
             raise HTTPException(
                 status_code=400,
                 detail="Only PDF and TXT files are supported"
@@ -30,7 +29,7 @@ async def upload_document(file: UploadFile = File(...)):
         if len(content) > MAX_FILE_SIZE:
             raise HTTPException(
                 status_code=400,
-                detail=f"File size exceeds 10MB limit ({len(content) / (1024 * 1024):.1f}MB uploaded)"
+                detail=f"File size exceeds {MAX_FILE_SIZE // (1024 * 1024)}MB limit ({len(content) / (1024 * 1024):.1f}MB uploaded)"
             )
 
         with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(file.filename)[1]) as tmp_file:

@@ -3,15 +3,10 @@ SQLite database for persistent storage of document metadata and settings.
 """
 import aiosqlite
 import logging
+from constants import DEFAULT_SYSTEM_PROMPT
+from settings import DB_PATH
 
 logger = logging.getLogger(__name__)
-
-DB_PATH = "app.db"
-
-DEFAULT_SYSTEM_PROMPT = (
-    "You are a helpful AI assistant. Use the provided context from "
-    "documents to answer questions accurately and concisely."
-)
 
 
 async def init_db():
