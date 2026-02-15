@@ -20,7 +20,8 @@ function useVoiceConnection({ setError }) {
       setConnected(true);
     } catch (err) {
       console.error('Error connecting:', err);
-      setError('Failed to connect to voice agent');
+      const detail = err.response?.data?.detail;
+      setError(detail || 'Failed to connect to voice agent. Please check your connection and try again.');
     }
   }, [setError]);
 

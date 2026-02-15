@@ -43,7 +43,8 @@ function useDocuments({ setError, setSuccess }) {
       await loadDocuments();
     } catch (err) {
       console.error('Error uploading document:', err);
-      setError('Failed to upload document');
+      const detail = err.response?.data?.detail;
+      setError(detail || 'Failed to upload document. Please check your connection and try again.');
     } finally {
       setUploading(false);
       event.target.value = '';
@@ -59,7 +60,8 @@ function useDocuments({ setError, setSuccess }) {
       await loadDocuments();
     } catch (err) {
       console.error('Error deleting document:', err);
-      setError('Failed to delete document');
+      const detail = err.response?.data?.detail;
+      setError(detail || 'Failed to delete document. Please try again.');
     }
   }, [loadDocuments, setError, setSuccess]);
 
