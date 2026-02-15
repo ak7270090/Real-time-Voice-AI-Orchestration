@@ -60,10 +60,10 @@ LIVEKIT_API_SECRET=your-livekit-api-secret
 ### 2a. Run with Docker (recommended)
 
 ```bash
-docker-compose up -d
+docker-compose up --build -d
 ```
 
-This pulls pre-built images from Docker Hub and starts the backend, frontend, **and** the LiveKit voice agent. Frontend runs on `http://localhost:3000`, backend on `http://localhost:8000`.
+This builds and starts the backend, frontend, **and** the LiveKit voice agent. Frontend runs on `http://localhost:3000`, backend on `http://localhost:8000`.
 
 ```bash
 # Useful commands

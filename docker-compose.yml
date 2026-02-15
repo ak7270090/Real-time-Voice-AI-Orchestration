@@ -3,7 +3,9 @@ version: '3.8'
 services:
   # Backend FastAPI service
   backend:
-    image: ak7270090/voice-ai-backend:latest
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     container_name: voice-ai-backend
     ports:
       - "8000:8000"
@@ -14,16 +16,20 @@ services:
       - LIVEKIT_API_SECRET=${LIVEKIT_API_SECRET}
       - BACKEND_PORT=8000
       - CHROMA_PERSIST_DIR=/app/chroma_db
+      - DB_PATH=/app/data/app.db
     volumes:
       - backend-data:/app/chroma_db
       - uploads:/app/uploads
+      - sqlite-data:/app/data
     networks:
       - voice-ai-network
     restart: unless-stopped
 
   # LiveKit Voice Agent worker
   voice-agent:
-    image: ak7270090/voice-ai-backend:latest
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     container_name: voice-ai-agent
     command: ["python", "voice_agent.py", "dev"]
     environment:
@@ -32,6 +38,7 @@ services:
       - LIVEKIT_API_KEY=${LIVEKIT_API_KEY}
       - LIVEKIT_API_SECRET=${LIVEKIT_API_SECRET}
       - CHROMA_PERSIST_DIR=/app/chroma_db
+      - BACKEND_URL=http://backend:8000
     volumes:
       - backend-data:/app/chroma_db
     networks:
@@ -42,7 +49,9 @@ services:
 
   # Frontend React service
   frontend:
-    image: ak7270090/voice-ai-frontend:latest
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     container_name: voice-ai-frontend
     ports:
       - "3000:3000"
@@ -58,6 +67,7 @@ services:
 volumes:
   backend-data:
   uploads:
+  sqlite-data:
 
 networks:
   voice-ai-network:

@@ -6,6 +6,8 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
     gcc \
     g++ \
+    libglib2.0-0 \
+    libgobject-2.0-0 \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements
@@ -18,7 +20,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Create directories
-RUN mkdir -p uploads chroma_db
+RUN mkdir -p uploads chroma_db data
 
 # Expose port
 EXPOSE 8000

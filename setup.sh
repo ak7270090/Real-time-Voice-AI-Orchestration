@@ -59,8 +59,7 @@ echo ""
 echo "Building and starting services..."
 echo ""
 
-docker-compose pull
-docker-compose up -d
+docker-compose up --build -d
 
 echo ""
 echo "=================================="
