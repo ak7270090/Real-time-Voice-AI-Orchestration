@@ -312,6 +312,11 @@ function VoiceAssistantUI({ documents }) {
     : undefined;
   const { segments: userSegments } = useTrackTranscription(localTrackRef);
 
+  // RAG sources panel
+  const [ragSources, setRagSources] = useState([]);
+  const [ragLoading, setRagLoading] = useState(false);
+  const lastQueriedRef = useRef('');
+
   // Build transcript log from both user and agent segments
   const transcriptRef = useRef([]);
   const [transcript, setTranscript] = useState([]);
@@ -328,6 +333,16 @@ function VoiceAssistantUI({ documents }) {
       existing.push(entry);
     }
     setTranscript([...existing]);
+
+    // Fetch RAG sources when a final user segment arrives
+    if (latest.final && latest.text && latest.text !== lastQueriedRef.current) {
+      lastQueriedRef.current = latest.text;
+      setRagLoading(true);
+      api.post('/query', { query: latest.text })
+        .then((res) => setRagSources(res.data.results || []))
+        .catch(() => setRagSources([]))
+        .finally(() => setRagLoading(false));
+    }
   }, [userSegments]);
 
   useEffect(() => {
@@ -396,6 +411,30 @@ function VoiceAssistantUI({ documents }) {
           )}
           <div ref={transcriptEndRef} />
         </div>
+      </div>
+
+      {/* RAG sources panel */}
+      <div className="rag-panel">
+        <h3>RAG Sources Used</h3>
+        {ragLoading ? (
+          <p className="empty-state">Retrieving sources...</p>
+        ) : ragSources.length === 0 ? (
+          <p className="empty-state">No sources retrieved yet</p>
+        ) : (
+          <ul className="rag-sources-list">
+            {ragSources.map((src, i) => (
+              <li key={i} className="rag-source-item">
+                <div className="rag-source-header">
+                  <span className="rag-source-name">{src.metadata?.source || 'Unknown'}</span>
+                  <span className="rag-source-score">
+                    {(100 / (1 + src.similarity_score)).toFixed(0)}% match
+                  </span>
+                </div>
+                <p className="rag-source-content">{src.content}</p>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
       {(!documents || documents.length === 0) && (
