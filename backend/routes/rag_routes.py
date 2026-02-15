@@ -1,0 +1,26 @@
+import logging
+from fastapi import APIRouter, HTTPException
+from schemas import QueryRequest
+from dependencies import get_rag_service
+
+logger = logging.getLogger(__name__)
+
+router = APIRouter()
+
+
+@router.post("/query")
+async def query_rag(request: QueryRequest):
+    """
+    Test RAG retrieval without voice
+    Useful for debugging and testing
+    """
+    try:
+        rag = get_rag_service()
+        results = await rag.retrieve(request.query, top_k=3)
+        return {
+            "query": request.query,
+            "results": results
+        }
+    except Exception as e:
+        logger.error(f"Error querying RAG: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))

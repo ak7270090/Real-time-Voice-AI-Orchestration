@@ -9,7 +9,7 @@ import {
 import '@livekit/components-styles';
 import { ConnectionState } from 'livekit-client';
 import './App.css';
-import api from './services/api';
+import api from './services/apiClient';
 
 /**
  * Main App Component
