@@ -119,6 +119,22 @@ function App() {
   };
 
   /**
+   * Delete a document from the knowledge base
+   */
+  const handleDeleteDocument = async (filename) => {
+    try {
+      setError('');
+      await api.delete(`/documents/${encodeURIComponent(filename)}`);
+      setSuccess(`Document "${filename}" deleted`);
+      setTimeout(() => setSuccess(''), 3000);
+      await loadDocuments();
+    } catch (err) {
+      console.error('Error deleting document:', err);
+      setError('Failed to delete document');
+    }
+  };
+
+  /**
    * Connect to LiveKit room
    */
   const handleConnect = async () => {
@@ -199,6 +215,12 @@ function App() {
                         {doc.chunk_count} chunks • {(doc.file_size / 1024).toFixed(1)} KB
                       </span>
                     </div>
+                    <button
+                      className="button-delete"
+                      onClick={() => handleDeleteDocument(doc.filename)}
+                    >
+                      Delete
+                    </button>
                   </li>
                 ))}
               </ul>
