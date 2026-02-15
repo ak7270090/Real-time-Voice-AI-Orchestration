@@ -199,9 +199,7 @@ TOP_K_RESULTS=3
 |----------|-----|----------|
 | ChromaDB (in-process) | Zero infrastructure, just works | Not horizontally scalable; data lives on disk in `chroma_db/` |
 | OpenAI for all AI (STT + LLM + TTS) | Consistent API, easy setup | Vendor lock-in, API costs, latency depends on OpenAI |
-| LiveKit Cloud | Managed WebRTC, no TURN/STUN setup | Requires external account; adds a network hop |
 | SQLite for metadata | No extra database to run | Single-writer, no concurrent access |
-| `window.confirm` for delete | Simple, no extra UI library needed | Not styleable, looks different per browser |
 | No authentication | Keeps demo simple | Not production-safe as-is |
 
 ## Troubleshooting
@@ -219,7 +217,6 @@ TOP_K_RESULTS=3
 **Agent not responding**
 - Allow microphone permission in your browser
 - Check OpenAI API quota is not exhausted
-- Verify backend is running: `curl http://localhost:8000/health`
 
 **Microphone not working**
 - Try a different browser

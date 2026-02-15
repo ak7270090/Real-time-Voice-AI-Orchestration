@@ -7,7 +7,6 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from database import init_db
 from settings import CORS_ORIGINS, BACKEND_PORT
-from health.routes import router as health_router
 from documents.routes import router as documents_router
 from prompt.routes import router as prompt_router
 from livekit_auth.routes import router as livekit_router
@@ -39,7 +38,6 @@ async def startup():
 
 
 # Register routers
-app.include_router(health_router)
 app.include_router(documents_router)
 app.include_router(prompt_router)
 app.include_router(livekit_router)

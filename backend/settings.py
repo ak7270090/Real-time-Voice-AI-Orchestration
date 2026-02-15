@@ -18,12 +18,6 @@ TTS_MODEL = os.getenv("TTS_MODEL", "gpt-4o-mini-tts")
 TTS_VOICE = os.getenv("TTS_VOICE", "ash")
 LLM_MODEL = os.getenv("LLM_MODEL", "gpt-4o")
 
-# ── Health/config endpoint fallback model names ──────────────
-HEALTH_STT_MODEL = os.getenv("STT_MODEL", "whisper-1")
-HEALTH_LLM_MODEL = os.getenv("LLM_MODEL", "gpt-4")
-HEALTH_TTS_MODEL = os.getenv("TTS_MODEL", "tts-1")
-HEALTH_TTS_VOICE = os.getenv("TTS_VOICE", "alloy")
-
 # ── Backend networking ───────────────────────────────────────
 BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 BACKEND_PORT = int(os.getenv("BACKEND_PORT", 8000))
