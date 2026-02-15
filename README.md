@@ -26,6 +26,13 @@ Frontend (React :3000)  ──HTTP/WebRTC──▶  Backend (FastAPI :8000)
 - **RAG source panel** — view which document chunks were used for each answer
 - **Mic controls** — mute/unmute during conversation
 
+## Screenshots
+
+| Initial State | Documents Uploaded | Voice Conversation |
+|:---:|:---:|:---:|
+| ![Initial state](docs/screenshots/image1.png) | ![Documents uploaded](docs/screenshots/image2.png) | ![Active conversation](docs/screenshots/image3.png) |
+| Upload documents and configure the agent | Knowledge base populated with documents | Live transcript and RAG source citations |
+
 ## Prerequisites
 
 - OpenAI API key ([platform.openai.com](https://platform.openai.com))
