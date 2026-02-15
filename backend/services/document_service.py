@@ -7,7 +7,7 @@ import logging
 from datetime import datetime
 from typing import List, Dict, Any
 from PyPDF2 import PdfReader
-from rag_service import RAGService
+from services.rag_service import RAGService
 
 logger = logging.getLogger(__name__)
 

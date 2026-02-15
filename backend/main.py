@@ -11,8 +11,8 @@ from dotenv import load_dotenv
 from livekit import api
 import asyncio
 
-from document_service import DocumentService
-from rag_service import RAGService
+from services.document_service import DocumentService
+from services.rag_service import RAGService
 
 # Load environment variables
 load_dotenv()
