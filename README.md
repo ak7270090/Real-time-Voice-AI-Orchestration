@@ -198,6 +198,15 @@ CHUNK_OVERLAP=200
 TOP_K_RESULTS=3
 ```
 
+## Monitoring & Observability
+
+The backend includes built-in monitoring and observability:
+
+- **Structured logging** — JSON-formatted logs with request context via a custom logging config
+- **Request metrics** — middleware tracks request count, latency, and status codes
+- **Prometheus metrics** — exposed at `/metrics` for scraping by Prometheus/Grafana
+- **Health checks** — `/health` endpoint reports service and dependency status
+
 ## Limitations
 
 - **Document size** — max 10MB per file
