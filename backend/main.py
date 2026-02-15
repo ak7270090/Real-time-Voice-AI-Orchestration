@@ -8,11 +8,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 
 from database import init_db
-from routes.health_routes import router as health_router
-from routes.document_routes import router as documents_router
-from routes.prompt_routes import router as prompt_router
-from routes.livekit_routes import router as livekit_router
-from routes.rag_routes import router as rag_router
+from health.routes import router as health_router
+from documents.routes import router as documents_router
+from prompt.routes import router as prompt_router
+from livekit_auth.routes import router as livekit_router
+from rag.routes import router as rag_router
 
 # Load environment variables
 load_dotenv()
@@ -28,10 +28,11 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# CORS middleware - configure for your frontend
+# CORS middleware - configure via CORS_ORIGINS env var (comma-separated)
+cors_origins = os.getenv("CORS_ORIGINS", "http://localhost:3000,http://localhost:3001")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:3001"],
+    allow_origins=[origin.strip() for origin in cors_origins.split(",")],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

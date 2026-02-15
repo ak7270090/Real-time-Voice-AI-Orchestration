@@ -1,0 +1,67 @@
+.uploadSection {
+  margin-bottom: 20px;
+}
+
+.uploadButton {
+  display: inline-block;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.uploadButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.documentsList {
+  margin-top: 20px;
+}
+
+.documentsList ul {
+  list-style: none;
+}
+
+.documentsList li {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.documentsList li:last-child {
+  border-bottom: none;
+}
+
+.docInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.docMeta {
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.deleteButton {
+  background: #f44336;
+  color: white;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.deleteButton:hover {
+  background: #d32f2f;
+}

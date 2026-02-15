@@ -1,0 +1,25 @@
+.promptSection {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.promptSection label {
+  font-weight: 600;
+  color: #555;
+}
+
+.promptSection textarea {
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+  transition: border-color 0.3s ease;
+}
+
+.promptSection textarea:focus {
+  outline: none;
+  border-color: #667eea;
+}

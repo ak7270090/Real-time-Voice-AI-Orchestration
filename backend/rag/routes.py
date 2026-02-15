@@ -1,6 +1,6 @@
 import logging
 from fastapi import APIRouter, HTTPException
-from schemas import QueryRequest
+from rag.schemas import QueryRequest
 from dependencies import get_rag_service
 
 logger = logging.getLogger(__name__)
@@ -10,10 +10,7 @@ router = APIRouter()
 
 @router.post("/query")
 async def query_rag(request: QueryRequest):
-    """
-    Test RAG retrieval without voice
-    Useful for debugging and testing
-    """
+    """Test RAG retrieval without voice"""
     try:
         rag = get_rag_service()
         results = await rag.retrieve(request.query, top_k=3)

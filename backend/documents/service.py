@@ -1,13 +1,12 @@
 """
-Document Service
-Handles document upload and processing
+Document Service — handles document upload and processing.
 """
 import os
 import logging
 from datetime import datetime
 from typing import List, Dict, Any
 from PyPDF2 import PdfReader
-from services.rag_service import RAGService
+from rag.service import RAGService
 from database import insert_document, list_documents as db_list_documents, delete_document as db_delete_document
 
 logger = logging.getLogger(__name__)
@@ -17,22 +16,10 @@ class DocumentService:
     """Service for processing and managing documents"""
 
     def __init__(self):
-        """Initialize document service"""
         self.rag_service = RAGService()
 
     async def process_document(self, file_path: str, filename: str) -> Dict[str, Any]:
-        """
-        Process a document and add to knowledge base
-
-        Args:
-            file_path: Path to the document file
-            filename: Original filename
-
-        Returns:
-            Dict with processing results
-        """
         try:
-            # Extract text based on file type
             if filename.endswith('.pdf'):
                 text = self._extract_pdf_text(file_path)
             elif filename.endswith('.txt'):
@@ -40,10 +27,8 @@ class DocumentService:
             else:
                 raise ValueError(f"Unsupported file type: {filename}")
 
-            # Create chunks
             chunks = self.rag_service.create_chunks(text)
 
-            # Create metadata for each chunk
             metadatas = []
             for i, chunk in enumerate(chunks):
                 metadatas.append({
@@ -52,10 +37,8 @@ class DocumentService:
                     "total_chunks": len(chunks)
                 })
 
-            # Add to vector store
             await self.rag_service.add_documents(chunks, metadatas)
 
-            # Persist document metadata to DB
             file_size = os.path.getsize(file_path)
             await insert_document(
                 filename=filename,
@@ -77,7 +60,6 @@ class DocumentService:
             raise
 
     def _extract_pdf_text(self, file_path: str) -> str:
-        """Extract text from PDF"""
         reader = PdfReader(file_path)
         text = ""
         for page in reader.pages:
@@ -85,15 +67,12 @@ class DocumentService:
         return text
 
     def _extract_txt_text(self, file_path: str) -> str:
-        """Extract text from TXT file"""
         with open(file_path, 'r', encoding='utf-8') as f:
             return f.read()
 
     async def list_documents(self) -> List[Dict[str, Any]]:
-        """List all uploaded documents from DB"""
         return await db_list_documents()
 
     async def delete_document(self, filename: str):
-        """Delete a document from DB and ChromaDB vector store."""
         await self.rag_service.delete_by_source(filename)
         await db_delete_document(filename)

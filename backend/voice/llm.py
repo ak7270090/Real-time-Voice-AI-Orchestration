@@ -1,7 +1,6 @@
 """
 LLM (Large Language Model) Service Component
 
-Configures and provides the LLM component for the voice pipeline.
 Handles system prompt fetching and RAG context injection.
 """
 import os
@@ -27,12 +26,6 @@ DEFAULT_SYSTEM_PROMPT = (
 
 
 def create_llm() -> openai.LLM:
-    """
-    Create and return a configured LLM instance.
-
-    Environment variables:
-        LLM_MODEL: OpenAI LLM model name (default: gpt-4o)
-    """
     model = os.getenv("LLM_MODEL", DEFAULT_MODEL)
     logger.info(f"Initializing LLM service with model: {model}")
     return openai.LLM(model=model)

@@ -1,0 +1,13 @@
+.instructions ol {
+  padding-left: 20px;
+}
+
+.instructions li {
+  margin-bottom: 12px;
+  line-height: 1.6;
+  color: #555;
+}
+
+.instructions strong {
+  color: #667eea;
+}

@@ -2,7 +2,7 @@ import os
 import logging
 from fastapi import APIRouter, HTTPException
 from livekit import api
-from schemas import TokenRequest
+from livekit_auth.schemas import TokenRequest
 
 logger = logging.getLogger(__name__)
 
@@ -11,12 +11,7 @@ router = APIRouter()
 
 @router.post("/generate-token")
 async def generate_token(request: TokenRequest):
-    """
-    Generate LiveKit access token for joining a room
-
-    This token allows the frontend to connect to LiveKit
-    and participate in the voice conversation
-    """
+    """Generate LiveKit access token for joining a room"""
     try:
         livekit_url = os.getenv("LIVEKIT_URL")
         api_key = os.getenv("LIVEKIT_API_KEY")

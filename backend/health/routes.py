@@ -1,7 +1,7 @@
 import os
 from fastapi import APIRouter
-from schemas import HealthResponse
-from dependencies import rag_service
+from health.schemas import HealthResponse
+from dependencies import rag_service, get_current_prompt
 
 router = APIRouter()
 
@@ -29,7 +29,6 @@ async def health_check():
 @router.get("/agent-config")
 async def get_agent_config():
     """Get current agent configuration"""
-    from dependencies import get_current_prompt
     prompt = await get_current_prompt()
     return {
         "system_prompt": prompt,

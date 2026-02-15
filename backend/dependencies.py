@@ -1,5 +1,5 @@
-from services.document_service import DocumentService
-from services.rag_service import RAGService
+from documents.service import DocumentService
+from rag.service import RAGService
 from database import get_setting, upsert_setting
 
 document_service = None

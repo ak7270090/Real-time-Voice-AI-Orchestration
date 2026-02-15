@@ -1,6 +1,6 @@
 import logging
 from fastapi import APIRouter, HTTPException
-from schemas import PromptUpdate
+from prompt.schemas import PromptUpdate
 from dependencies import get_current_prompt, update_current_prompt
 
 logger = logging.getLogger(__name__)

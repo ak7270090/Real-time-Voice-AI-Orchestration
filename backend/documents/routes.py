@@ -3,26 +3,19 @@ import tempfile
 import logging
 from typing import List
 from fastapi import APIRouter, UploadFile, File, HTTPException
-from schemas import DocumentInfo
+from documents.schemas import DocumentInfo
 from dependencies import get_document_service
 
 logger = logging.getLogger(__name__)
+
+MAX_FILE_SIZE = 10 * 1024 * 1024  # 10 MB
 
 router = APIRouter()
 
 
 @router.post("/upload-document")
 async def upload_document(file: UploadFile = File(...)):
-    """
-    Upload and process a document for RAG
-
-    This endpoint:
-    1. Saves the uploaded file
-    2. Extracts text from the document
-    3. Chunks the text into smaller pieces
-    4. Creates embeddings for each chunk
-    5. Stores in vector database for retrieval
-    """
+    """Upload and process a document for RAG"""
     try:
         logger.info(f"Uploading document: {file.filename}")
 
@@ -32,8 +25,15 @@ async def upload_document(file: UploadFile = File(...)):
                 detail="Only PDF and TXT files are supported"
             )
 
+        content = await file.read()
+
+        if len(content) > MAX_FILE_SIZE:
+            raise HTTPException(
+                status_code=400,
+                detail=f"File size exceeds 10MB limit ({len(content) / (1024 * 1024):.1f}MB uploaded)"
+            )
+
         with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(file.filename)[1]) as tmp_file:
-            content = await file.read()
             tmp_file.write(content)
             tmp_file_path = tmp_file.name
 
