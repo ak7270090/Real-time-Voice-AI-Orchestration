@@ -35,7 +35,11 @@ function KnowledgeBase({ documents, uploading, onFileUpload, onDeleteDocument })
                 </div>
                 <button
                   className={styles.deleteButton}
-                  onClick={() => onDeleteDocument(doc.filename)}
+                  onClick={() => {
+                    if (window.confirm(`Delete "${doc.filename}"? This cannot be undone.`)) {
+                      onDeleteDocument(doc.filename);
+                    }
+                  }}
                 >
                   Delete
                 </button>
