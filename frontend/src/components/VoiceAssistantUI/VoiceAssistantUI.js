@@ -83,9 +83,20 @@ function VoiceAssistantUI({ documents }) {
     setTranscript([...existing]);
   }, [agentTranscriptions]);
 
-  const transcriptEndRef = useRef(null);
+  const transcriptLogRef = useRef(null);
+  const userIsScrolledUp = useRef(false);
+
+  const handleTranscriptScroll = useCallback(() => {
+    const el = transcriptLogRef.current;
+    if (!el) return;
+    const distanceFromBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
+    userIsScrolledUp.current = distanceFromBottom > 40;
+  }, []);
+
   useEffect(() => {
-    transcriptEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    const el = transcriptLogRef.current;
+    if (!el || userIsScrolledUp.current) return;
+    el.scrollTop = el.scrollHeight;
   }, [transcript]);
 
   const toggleMic = useCallback(async () => {
@@ -109,7 +120,7 @@ function VoiceAssistantUI({ documents }) {
 
       <div className={styles.transcriptPanel}>
         <h3>Live Transcript</h3>
-        <div className={styles.transcriptLog}>
+        <div className={styles.transcriptLog} ref={transcriptLogRef} onScroll={handleTranscriptScroll}>
           {transcript.length === 0 ? (
             <p className={styles.emptyState}>Start speaking to see the transcript...</p>
           ) : (
@@ -123,7 +134,6 @@ function VoiceAssistantUI({ documents }) {
               </div>
             ))
           )}
-          <div ref={transcriptEndRef} />
         </div>
       </div>
 
