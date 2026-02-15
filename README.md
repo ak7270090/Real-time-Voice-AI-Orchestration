@@ -43,8 +43,8 @@ Frontend (React :3000)  ──HTTP/WebRTC──▶  Backend (FastAPI :8000)
 ### 1. Clone and configure
 
 ```bash
-git clone <your-repo-url>
-cd voice-ai-agent
+git clone https://github.com/ak7270090/Real-time-Voice-AI-Orchestration.git
+cd Real-time-Voice-AI-Orchestration
 cp .env.example .env
 ```
 
@@ -60,20 +60,23 @@ LIVEKIT_API_SECRET=your-livekit-api-secret
 ### 2a. Run with Docker (recommended)
 
 ```bash
-docker-compose up --build
+docker-compose up -d
 ```
 
-That's it. Frontend runs on `http://localhost:3000`, backend on `http://localhost:8000`.
+This pulls pre-built images from Docker Hub and starts the backend, frontend, **and** the LiveKit voice agent. Frontend runs on `http://localhost:3000`, backend on `http://localhost:8000`.
 
 ```bash
 # Useful commands
 docker-compose logs -f backend     # Tail backend logs
+docker-compose logs -f voice-agent # Tail voice agent logs
 docker-compose down                # Stop everything
 ```
 
 ### 2b. Run manually (development)
 
-**Backend:**
+You need **three** terminal sessions: backend, voice agent, and frontend.
+
+**Backend** (terminal 1):
 
 ```bash
 cd backend
@@ -83,7 +86,17 @@ pip install -r requirements.txt
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-**Frontend** (in a separate terminal):
+**Voice Agent** (terminal 2):
+
+```bash
+cd backend
+source venv/bin/activate           # Windows: venv\Scripts\activate
+python voice_agent.py dev
+```
+
+This starts the LiveKit voice agent worker that handles real-time voice conversations. It connects to your LiveKit server (using credentials from `.env`) and runs the STT → LLM → TTS pipeline.
+
+**Frontend** (terminal 3):
 
 ```bash
 cd frontend

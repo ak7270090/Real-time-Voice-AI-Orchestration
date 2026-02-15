@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  # Backend FastAPI service
+  backend:
+    image: ak7270090/voice-ai-backend:latest
+    container_name: voice-ai-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - LIVEKIT_URL=${LIVEKIT_URL}
+      - LIVEKIT_API_KEY=${LIVEKIT_API_KEY}
+      - LIVEKIT_API_SECRET=${LIVEKIT_API_SECRET}
+      - BACKEND_PORT=8000
+      - CHROMA_PERSIST_DIR=/app/chroma_db
+    volumes:
+      - backend-data:/app/chroma_db
+      - uploads:/app/uploads
+    networks:
+      - voice-ai-network
+    restart: unless-stopped
+
+  # LiveKit Voice Agent worker
+  voice-agent:
+    image: ak7270090/voice-ai-backend:latest
+    container_name: voice-ai-agent
+    command: ["python", "voice_agent.py", "dev"]
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - LIVEKIT_URL=${LIVEKIT_URL}
+      - LIVEKIT_API_KEY=${LIVEKIT_API_KEY}
+      - LIVEKIT_API_SECRET=${LIVEKIT_API_SECRET}
+      - CHROMA_PERSIST_DIR=/app/chroma_db
+    volumes:
+      - backend-data:/app/chroma_db
+    networks:
+      - voice-ai-network
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  # Frontend React service
+  frontend:
+    image: ak7270090/voice-ai-frontend:latest
+    container_name: voice-ai-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_BACKEND_URL=http://localhost:8000
+      - REACT_APP_LIVEKIT_URL=${LIVEKIT_URL}
+    networks:
+      - voice-ai-network
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  backend-data:
+  uploads:
+
+networks:
+  voice-ai-network:
+    driver: bridge
