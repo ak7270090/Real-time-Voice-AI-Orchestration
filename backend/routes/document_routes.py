@@ -64,7 +64,7 @@ async def list_documents():
     """Get list of all uploaded documents"""
     try:
         doc_service = get_document_service()
-        documents = doc_service.list_documents()
+        documents = await doc_service.list_documents()
         return documents
     except Exception as e:
         logger.error(f"Error listing documents: {str(e)}")

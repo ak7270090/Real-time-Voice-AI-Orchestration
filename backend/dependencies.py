@@ -1,13 +1,9 @@
 from services.document_service import DocumentService
 from services.rag_service import RAGService
+from database import get_setting, upsert_setting
 
 document_service = None
 rag_service = None
-
-# Global state for agent prompt
-current_prompt = {
-    "system_prompt": "You are a helpful AI assistant. Use the provided context from documents to answer questions accurately and concisely."
-}
 
 
 def get_document_service():
@@ -22,3 +18,11 @@ def get_rag_service():
     if rag_service is None:
         rag_service = RAGService()
     return rag_service
+
+
+async def get_current_prompt() -> str:
+    return await get_setting("system_prompt", "")
+
+
+async def update_current_prompt(prompt: str):
+    await upsert_setting("system_prompt", prompt)

@@ -120,6 +120,18 @@ button {
   padding: 18px 36px;
 }
 
+.button-delete {
+  background: #f44336;
+  color: white;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.button-delete:hover {
+  background: #d32f2f;
+}
+
 /* Upload Section */
 .upload-section {
   margin-bottom: 20px;

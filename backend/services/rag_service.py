@@ -90,6 +90,24 @@ class RAGService:
             logger.error(f"Error retrieving documents: {e}")
             return []
     
+    async def delete_by_source(self, filename: str):
+        """Delete all chunks belonging to a source document from the vector store."""
+        if self.vector_store is None:
+            raise Exception("Vector store not initialized")
+
+        try:
+            collection = self.vector_store._collection
+            results = collection.get(where={"source": filename})
+            ids = results.get("ids", [])
+            if ids:
+                collection.delete(ids=ids)
+                logger.info(f"Deleted {len(ids)} chunks for source: {filename}")
+            else:
+                logger.info(f"No chunks found for source: {filename}")
+        except Exception as e:
+            logger.error(f"Error deleting chunks for {filename}: {e}")
+            raise
+
     def create_chunks(self, text: str) -> List[str]:
         """Split text into chunks"""
         chunks = self.text_splitter.split_text(text)

@@ -29,9 +29,10 @@ async def health_check():
 @router.get("/agent-config")
 async def get_agent_config():
     """Get current agent configuration"""
-    from dependencies import current_prompt
+    from dependencies import get_current_prompt
+    prompt = await get_current_prompt()
     return {
-        "system_prompt": current_prompt["system_prompt"],
+        "system_prompt": prompt,
         "stt_model": os.getenv("STT_MODEL", "whisper-1"),
         "llm_model": os.getenv("LLM_MODEL", "gpt-4"),
         "tts_model": os.getenv("TTS_MODEL", "tts-1"),

@@ -8,26 +8,26 @@ from datetime import datetime
 from typing import List, Dict, Any
 from PyPDF2 import PdfReader
 from services.rag_service import RAGService
+from database import insert_document, list_documents as db_list_documents, delete_document as db_delete_document
 
 logger = logging.getLogger(__name__)
 
 
 class DocumentService:
     """Service for processing and managing documents"""
-    
+
     def __init__(self):
         """Initialize document service"""
         self.rag_service = RAGService()
-        self.documents_metadata = []  # Track uploaded documents
-    
+
     async def process_document(self, file_path: str, filename: str) -> Dict[str, Any]:
         """
         Process a document and add to knowledge base
-        
+
         Args:
             file_path: Path to the document file
             filename: Original filename
-            
+
         Returns:
             Dict with processing results
         """
@@ -39,10 +39,10 @@ class DocumentService:
                 text = self._extract_txt_text(file_path)
             else:
                 raise ValueError(f"Unsupported file type: {filename}")
-            
+
             # Create chunks
             chunks = self.rag_service.create_chunks(text)
-            
+
             # Create metadata for each chunk
             metadatas = []
             for i, chunk in enumerate(chunks):
@@ -51,31 +51,31 @@ class DocumentService:
                     "chunk_id": i,
                     "total_chunks": len(chunks)
                 })
-            
+
             # Add to vector store
             await self.rag_service.add_documents(chunks, metadatas)
-            
-            # Track document
+
+            # Persist document metadata to DB
             file_size = os.path.getsize(file_path)
-            self.documents_metadata.append({
-                "filename": filename,
-                "upload_time": datetime.utcnow().isoformat(),
-                "chunk_count": len(chunks),
-                "file_size": file_size
-            })
-            
+            await insert_document(
+                filename=filename,
+                upload_time=datetime.utcnow().isoformat(),
+                chunk_count=len(chunks),
+                file_size=file_size,
+            )
+
             logger.info(f"Processed document: {filename}, {len(chunks)} chunks")
-            
+
             return {
                 "filename": filename,
                 "chunks_created": len(chunks),
                 "file_size": file_size
             }
-            
+
         except Exception as e:
             logger.error(f"Error processing document {filename}: {e}")
             raise
-    
+
     def _extract_pdf_text(self, file_path: str) -> str:
         """Extract text from PDF"""
         reader = PdfReader(file_path)
@@ -83,12 +83,17 @@ class DocumentService:
         for page in reader.pages:
             text += page.extract_text()
         return text
-    
+
     def _extract_txt_text(self, file_path: str) -> str:
         """Extract text from TXT file"""
         with open(file_path, 'r', encoding='utf-8') as f:
             return f.read()
-    
-    def list_documents(self) -> List[Dict[str, Any]]:
-        """List all uploaded documents"""
-        return self.documents_metadata
+
+    async def list_documents(self) -> List[Dict[str, Any]]:
+        """List all uploaded documents from DB"""
+        return await db_list_documents()
+
+    async def delete_document(self, filename: str):
+        """Delete a document from DB and ChromaDB vector store."""
+        await self.rag_service.delete_by_source(filename)
+        await db_delete_document(filename)

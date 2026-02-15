@@ -7,6 +7,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 
+from database import init_db
 from routes.health_routes import router as health_router
 from routes.document_routes import router as documents_router
 from routes.prompt_routes import router as prompt_router
@@ -35,6 +36,11 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.on_event("startup")
+async def startup():
+    await init_db()
+
 
 # Register routers
 app.include_router(health_router)
