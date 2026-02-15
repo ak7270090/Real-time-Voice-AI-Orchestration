@@ -107,6 +107,7 @@ npm start                          # Dev server on http://localhost:3000
 Or use the helper scripts:
 
 ```bash
+chmod +x setup.sh run-manual.sh   # Make scripts executable (first time only)
 ./setup.sh          # Docker-based setup
 ./run-manual.sh     # Manual development setup
 ```
