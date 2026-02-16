@@ -1,0 +1,202 @@
+ACME CORPORATION — EMPLOYEE HANDBOOK
+======================================
+Version 3.2 | Effective January 2025
+
+TABLE OF CONTENTS
+1. Company Overview
+2. Employment Policies
+3. Compensation & Benefits
+4. Leave Policies
+5. Code of Conduct
+6. IT & Security Policies
+7. Health & Safety
+8. Grievance & Disciplinary Procedures
+
+------------------------------------------------------------------------
+
+1. COMPANY OVERVIEW
+
+ACME Corporation was founded in 2010 and is headquartered in San Francisco, California. We specialize in building enterprise SaaS solutions for supply chain management. With over 1,200 employees across 8 global offices, we serve Fortune 500 clients in manufacturing, logistics, and retail.
+
+Our mission is to simplify global supply chains through intelligent automation. Our core values are: Transparency, Innovation, Customer Obsession, and Teamwork.
+
+------------------------------------------------------------------------
+
+2. EMPLOYMENT POLICIES
+
+2.1 Employment Types
+- Full-time: 40 hours/week, eligible for all benefits
+- Part-time: 20-30 hours/week, eligible for prorated benefits
+- Contract: Project-based, not eligible for company benefits
+- Intern: 12-week program, stipend provided
+
+2.2 Probation Period
+All new full-time employees undergo a 90-day probation period. During this time, either party may terminate employment with 1 week's notice. Performance reviews occur at 30, 60, and 90 days.
+
+2.3 Working Hours
+Standard working hours are 9:00 AM to 6:00 PM local time, Monday through Friday. We offer flexible scheduling — employees may shift their start time between 7:00 AM and 10:00 AM with manager approval.
+
+2.4 Remote Work Policy
+Employees may work remotely up to 3 days per week. Fully remote arrangements require VP-level approval. Remote employees must be available during core hours (10:00 AM - 3:00 PM local time) and maintain a reliable internet connection (minimum 25 Mbps).
+
+2.5 Notice Period
+- During probation: 1 week
+- After probation (IC roles): 2 weeks
+- Manager and above: 4 weeks
+- Director and above: 8 weeks
+
+------------------------------------------------------------------------
+
+3. COMPENSATION & BENEFITS
+
+3.1 Pay Schedule
+Employees are paid bi-weekly on Fridays via direct deposit. Pay stubs are available on the HR portal (hr.acme-corp.com) by Wednesday before payday.
+
+3.2 Salary Reviews
+Annual salary reviews occur in March. Adjustments are based on individual performance ratings, market benchmarks, and company financial performance. Merit increases typically range from 3% to 8%.
+
+3.3 Bonuses
+- Annual performance bonus: up to 15% of base salary for IC roles, up to 25% for managers
+- Spot bonuses: $500-$2,000 for exceptional contributions, approved by department head
+- Referral bonus: $3,000 for successful hires (paid after referee completes probation)
+
+3.4 Equity
+Full-time employees receive stock options as part of their compensation package. Standard vesting schedule is 4 years with a 1-year cliff. Details are in your individual offer letter.
+
+3.5 Health Insurance
+ACME provides medical, dental, and vision coverage through BlueCross BlueShield.
+- Employee-only: 100% company-paid
+- Employee + spouse: 80% company-paid
+- Employee + family: 75% company-paid
+Coverage begins on the first day of the month following your start date.
+
+3.6 Retirement
+ACME offers a 401(k) plan with a 4% company match. Employees are eligible after 30 days of employment. The company match vests over 3 years (33% per year).
+
+3.7 Other Benefits
+- $5,000/year professional development budget (conferences, courses, certifications)
+- $500/year wellness stipend (gym, fitness apps, ergonomic equipment)
+- $100/month commuter benefit (transit or parking)
+- Free lunch on Tuesdays and Thursdays at HQ
+- Annual company retreat (3 days, all expenses paid)
+
+------------------------------------------------------------------------
+
+4. LEAVE POLICIES
+
+4.1 Paid Time Off (PTO)
+- 0-2 years tenure: 15 days/year
+- 2-5 years tenure: 20 days/year
+- 5+ years tenure: 25 days/year
+PTO accrues monthly. Maximum carry-over is 5 days into the next calendar year. Unused PTO beyond the carry-over limit is forfeited on December 31.
+
+4.2 Sick Leave
+12 days per year, non-accruing. A doctor's note is required for absences exceeding 3 consecutive days. Unused sick leave does not carry over or pay out.
+
+4.3 Holidays
+ACME observes 10 paid holidays per year:
+New Year's Day, Martin Luther King Jr. Day, Presidents' Day, Memorial Day, Independence Day, Labor Day, Thanksgiving Day, Day after Thanksgiving, Christmas Eve, Christmas Day.
+
+4.4 Parental Leave
+- Birth parent: 16 weeks paid leave
+- Non-birth parent: 8 weeks paid leave
+- Adoption/foster: 12 weeks paid leave
+Parental leave must be taken within 12 months of the child's birth or placement.
+
+4.5 Bereavement Leave
+- Immediate family (spouse, child, parent, sibling): 5 days paid
+- Extended family (grandparent, in-law, aunt/uncle): 3 days paid
+
+4.6 Jury Duty
+Full pay for up to 10 days of jury service per year. Notify your manager and HR as soon as you receive a summons.
+
+------------------------------------------------------------------------
+
+5. CODE OF CONDUCT
+
+5.1 Professional Behavior
+All employees are expected to treat colleagues, clients, and partners with respect and professionalism. Harassment, discrimination, or bullying of any kind is strictly prohibited and grounds for immediate termination.
+
+5.2 Conflict of Interest
+Employees must disclose any outside employment, board memberships, or financial interests that could conflict with their ACME responsibilities. Submit disclosures to ethics@acme-corp.com.
+
+5.3 Confidentiality
+All proprietary information, trade secrets, client data, and internal communications are confidential. This obligation continues after employment ends. Violations may result in legal action.
+
+5.4 Social Media
+Employees may not speak on behalf of ACME on social media without approval from the Communications team. Personal posts should not disclose confidential information or disparage the company.
+
+5.5 Gifts & Entertainment
+Employees may accept gifts valued under $100. Anything above $100 must be reported to your manager. Government-sector employees have stricter limits — consult Legal.
+
+------------------------------------------------------------------------
+
+6. IT & SECURITY POLICIES
+
+6.1 Acceptable Use
+Company devices and networks are for business use. Limited personal use is permitted but should not interfere with work or violate any policy. All activity on company networks may be monitored.
+
+6.2 Passwords
+- Minimum 12 characters with uppercase, lowercase, number, and special character
+- Must be changed every 90 days
+- Multi-factor authentication (MFA) is required for all company applications
+- Never share passwords or write them down
+
+6.3 Data Classification
+- Public: Marketing materials, press releases
+- Internal: Org charts, internal memos, meeting notes
+- Confidential: Client data, financial reports, source code
+- Restricted: PII, health records, security credentials
+Handle each classification per the Data Handling Guide on the intranet.
+
+6.4 Incident Reporting
+Report any security incidents (phishing, data breach, lost device) immediately to security@acme-corp.com or call the Security Hotline at +1-800-555-0199. Do not attempt to investigate on your own.
+
+6.5 Software Installation
+Only IT-approved software may be installed on company devices. Submit requests through the IT Service Desk (it-help.acme-corp.com). Unauthorized software will be flagged and removed.
+
+------------------------------------------------------------------------
+
+7. HEALTH & SAFETY
+
+7.1 Workplace Safety
+ACME maintains a safe work environment per OSHA regulations. Report hazards to facilities@acme-corp.com. Emergency exits, fire extinguishers, and first aid kits are located on every floor.
+
+7.2 Ergonomics
+Request an ergonomic assessment through HR. The company provides standing desks, monitor arms, and ergonomic chairs at no cost to the employee.
+
+7.3 Mental Health
+ACME provides an Employee Assistance Program (EAP) through Lyra Health, offering 12 free therapy sessions per year for employees and their dependents. Contact: 1-877-555-0123 or lyrahealth.com/acme.
+
+7.4 Emergency Procedures
+- Fire: Evacuate via nearest stairwell, assemble at designated meeting point
+- Earthquake: Drop, cover, hold. Evacuate after shaking stops
+- Medical emergency: Call 911, then notify reception at ext. 100
+- Active threat: Run, hide, fight (in that order). Call 911 when safe
+
+------------------------------------------------------------------------
+
+8. GRIEVANCE & DISCIPLINARY PROCEDURES
+
+8.1 Raising a Grievance
+Employees may raise concerns through:
+1. Direct conversation with their manager
+2. HR Business Partner (hr-support@acme-corp.com)
+3. Anonymous Ethics Hotline: 1-800-555-0177
+All grievances are investigated within 10 business days. Retaliation against anyone raising a good-faith concern is prohibited.
+
+8.2 Disciplinary Process
+1. Verbal warning (documented in HR system)
+2. Written warning (formal letter, improvement plan)
+3. Final written warning (30-day improvement period)
+4. Termination
+Severe violations (fraud, harassment, theft, violence) may result in immediate termination, bypassing the progressive discipline process.
+
+8.3 Appeals
+Employees may appeal any disciplinary action within 5 business days by submitting a written appeal to the VP of People Operations.
+
+------------------------------------------------------------------------
+
+For questions about any policy, contact HR at hr-support@acme-corp.com or visit the HR Portal at hr.acme-corp.com.
+
+This handbook is reviewed annually. Last updated: January 15, 2025.
