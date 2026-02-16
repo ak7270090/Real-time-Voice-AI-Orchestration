@@ -221,6 +221,14 @@ The backend includes built-in monitoring and observability:
 - **Prometheus metrics** — exposed at `/metrics` for scraping by Prometheus/Grafana
 - **Health checks** — `/health` endpoint reports service and dependency status
 
+### Prometheus Metrics Endpoint
+![Prometheus metrics](docs/screenshots/Metrics1.png)
+
+### Health Check Response
+![Health check](docs/screenshots/Metrics2.png)
+
+**Planned:** Integrate Grafana dashboards and Alertmanager using the `/metrics` and `/health` endpoints for real-time visualization, alerting on error rate spikes, latency thresholds, and service health degradation.
+
 ## Limitations
 
 - **Document size** — max 10MB per file
@@ -238,6 +246,14 @@ The backend includes built-in monitoring and observability:
 | OpenAI for all AI (STT + LLM + TTS) | Consistent API, easy setup | Vendor lock-in, API costs, latency depends on OpenAI |
 | SQLite for metadata | No extra database to run | Single-writer, no concurrent access |
 | No authentication | Keeps demo simple | Not production-safe as-is |
+
+## Planned UI Enhancements
+
+- **System prompt validation** — prevent saving empty prompts that break the agent; add character count indicator
+- **Upload progress bar** — show real upload progress instead of generic "Uploading..." text
+- **Connection loading state** — disable "Connect to Agent" button during connection to prevent duplicate clicks
+- **RAG query debouncing** — prevent out-of-order results when rapid speech triggers multiple concurrent queries
+- **Expandable RAG sources** — allow users to expand clipped source content beyond the 3-line preview
 
 ## Troubleshooting
 
