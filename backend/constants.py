@@ -9,8 +9,8 @@ ALLOWED_FILE_EXTENSIONS = (".pdf", ".txt")
 # ── RAG / Vector store ───────────────────────────────────────
 CHROMA_COLLECTION_NAME = "documents"
 EMBEDDING_MODEL_NAME = "all-MiniLM-L6-v2"
-DEFAULT_CHUNK_SIZE = 1000
-DEFAULT_CHUNK_OVERLAP = 200
+DEFAULT_CHUNK_SIZE = 500
+DEFAULT_CHUNK_OVERLAP = 100
 DEFAULT_TOP_K_RESULTS = 3
 
 # ── Database ──────────────────────────────────────────────────
