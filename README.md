@@ -84,6 +84,11 @@ This builds and starts the backend, frontend, **and** the LiveKit voice agent. F
 docker-compose logs -f backend     # Tail backend logs
 docker-compose logs -f voice-agent # Tail voice agent logs
 docker-compose down                # Stop everything
+
+# Reset vector store and database (needed after changing RAG settings)
+docker-compose down
+docker volume rm voice-ai-agent_backend-data voice-ai-agent_sqlite-data
+docker-compose up --build -d
 ```
 
 ### 2b. Run manually (development)
@@ -244,6 +249,7 @@ CHUNK_SIZE=500
 CHUNK_OVERLAP=100
 TOP_K_RESULTS=3
 ```
+
 
 ## Monitoring & Observability
 
