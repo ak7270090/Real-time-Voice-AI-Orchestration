@@ -134,6 +134,39 @@ chmod +x setup.sh run-manual.sh   # Make scripts executable (first time only)
 4. **Talk** — ask questions. The agent retrieves relevant chunks from your documents and responds by voice.
 5. **Check sources** — the RAG Sources panel shows which document sections were used.
 
+### Sample Documents
+
+Two sample files are included in [`docs/samples/`](docs/samples/) so you can try the agent immediately:
+
+| File | Description |
+|------|-------------|
+| [`product_manual.pdf`](docs/samples/product_manual.pdf) | 11-page product manual for a fictional workflow automation platform (NexusFlow Pro X200) — covers features, pricing, integrations, security, and troubleshooting |
+| [`company_policy.txt`](docs/samples/company_policy.txt) | Employee handbook for a fictional company (ACME Corp) — covers HR policies, benefits, leave, IT security, and code of conduct |
+
+After uploading, set this system prompt for the best results:
+
+> You are a helpful customer support specialist. Use the product documentation to answer customer questions accurately. Always cite the source when providing information from documents. If the answer is not in the provided context, say so clearly.
+
+Then try these sample voice questions:
+
+**Product Manual Questions:**
+- "What are the pricing plans for NexusFlow?"
+- "What are the system requirements for self-hosted deployment?"
+- "How does the workflow execution engine handle errors?"
+- "What integrations does NexusFlow support for CRM?"
+- "What is the SLA uptime guarantee for enterprise customers?"
+
+**Company Policy Questions:**
+- "How many days of PTO do I get in my first year?"
+- "What is the remote work policy?"
+- "What is the parental leave policy for non-birth parents?"
+- "How does the 401k match work?"
+- "What is the process for raising a grievance?"
+
+**Cross-Document Questions:**
+- "Compare the support options in the product manual with the IT support policy in the employee handbook"
+- "What security certifications does the product have, and what are the company's internal security policies?"
+
 ## Project Structure
 
 ```

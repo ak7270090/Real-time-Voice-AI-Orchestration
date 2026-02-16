@@ -49,17 +49,19 @@ function VoiceAssistantUI({ documents }) {
 
   useEffect(() => {
     if (userSegments.length === 0) return;
-    const latest = userSegments[userSegments.length - 1];
     const existing = transcriptRef.current;
-    const idx = existing.findIndex((e) => e.id === `user-${latest.id}`);
-    const entry = { id: `user-${latest.id}`, role: 'user', text: latest.text, final: latest.final };
-    if (idx >= 0) {
-      existing[idx] = entry;
-    } else {
-      existing.push(entry);
+    for (const seg of userSegments) {
+      const idx = existing.findIndex((e) => e.id === `user-${seg.id}`);
+      const entry = { id: `user-${seg.id}`, role: 'user', text: seg.text, final: seg.final };
+      if (idx >= 0) {
+        existing[idx] = entry;
+      } else {
+        existing.push(entry);
+      }
     }
     setTranscript([...existing]);
 
+    const latest = userSegments[userSegments.length - 1];
     if (latest.final && latest.text && latest.text !== lastQueriedRef.current) {
       lastQueriedRef.current = latest.text;
       setRagLoading(true);
@@ -76,14 +78,15 @@ function VoiceAssistantUI({ documents }) {
 
   useEffect(() => {
     if (agentTranscriptions.length === 0) return;
-    const latest = agentTranscriptions[agentTranscriptions.length - 1];
     const existing = transcriptRef.current;
-    const idx = existing.findIndex((e) => e.id === `agent-${latest.id}`);
-    const entry = { id: `agent-${latest.id}`, role: 'agent', text: latest.text, final: latest.final };
-    if (idx >= 0) {
-      existing[idx] = entry;
-    } else {
-      existing.push(entry);
+    for (const seg of agentTranscriptions) {
+      const idx = existing.findIndex((e) => e.id === `agent-${seg.id}`);
+      const entry = { id: `agent-${seg.id}`, role: 'agent', text: seg.text, final: seg.final };
+      if (idx >= 0) {
+        existing[idx] = entry;
+      } else {
+        existing.push(entry);
+      }
     }
     setTranscript([...existing]);
   }, [agentTranscriptions]);
@@ -157,7 +160,7 @@ function VoiceAssistantUI({ documents }) {
                 <div className={styles.ragSourceHeader}>
                   <span className={styles.ragSourceName}>{src.metadata?.source || 'Unknown'}</span>
                   <span className={styles.ragSourceScore}>
-                    {(100 / (1 + src.similarity_score)).toFixed(0)}% match
+                    {((1 - src.similarity_score) * 100).toFixed(0)}% match
                   </span>
                 </div>
                 <p className={styles.ragSourceContent}>{src.content}</p>

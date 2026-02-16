@@ -25,7 +25,8 @@ class RAGService:
             self.vector_store = Chroma(
                 collection_name=CHROMA_COLLECTION_NAME,
                 embedding_function=self.embeddings,
-                persist_directory=CHROMA_PERSIST_DIR
+                persist_directory=CHROMA_PERSIST_DIR,
+                collection_metadata={"hnsw:space": "cosine"},
             )
             logger.info("Vector store initialized successfully")
         except Exception as e:
