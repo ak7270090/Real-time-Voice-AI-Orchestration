@@ -4,6 +4,12 @@ A voice AI agent that lets you upload documents (PDF/TXT) and have real-time voi
 
 Upload a product manual, research paper, or any text — then ask questions by voice. The agent retrieves relevant context from your documents and speaks the answer back.
 
+## Demo
+
+[![Watch the demo video](https://drive.google.com/thumbnail?id=1RciXq7Dfrf7Wpisqrr7_aWq6a9L2iIsI)](https://drive.google.com/file/d/1RciXq7Dfrf7Wpisqrr7_aWq6a9L2iIsI/view?usp=sharing)
+
+> Click the thumbnail above to watch the demo video.
+
 ## Architecture
 
 ```
