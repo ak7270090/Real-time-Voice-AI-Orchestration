@@ -6,7 +6,9 @@ Upload a product manual, research paper, or any text — then ask questions by v
 
 ## Demo
 
-[![Watch the demo video](https://drive.google.com/thumbnail?id=1RciXq7Dfrf7Wpisqrr7_aWq6a9L2iIsI)](https://drive.google.com/file/d/1RciXq7Dfrf7Wpisqrr7_aWq6a9L2iIsI/view?usp=sharing)
+<a href="https://drive.google.com/file/d/1RciXq7Dfrf7Wpisqrr7_aWq6a9L2iIsI/view?usp=sharing">
+  <img src="https://drive.google.com/thumbnail?id=1RciXq7Dfrf7Wpisqrr7_aWq6a9L2iIsI" width="720" alt="Watch the demo video" />
+</a>
 
 > Click the thumbnail above to watch the demo video.
 
